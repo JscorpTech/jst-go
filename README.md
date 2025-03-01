@@ -12,8 +12,8 @@ Bu loyiha [Golang](w) va [Echo](w) framework'idan foydalangan holda web API yara
 
 ```sh
 # Repository'ni klonlash
-git clone https://github.com/username/project-name.git
-cd project-name
+git clone https://github.com/JscorpTech/jst-go.git
+cd jst-go
 
 # Modullarni yuklash
 go mod tidy
@@ -30,8 +30,8 @@ go run main.go
 ### Docker orqali
 
 ```sh
-docker build -t my-echo-app .
-docker run -p 8080:8080 my-echo-app
+docker build -t jst-go .
+docker run -p 8080:8080 jst-go
 ```
 
 ## 📜 Loyiha tuzilishi
