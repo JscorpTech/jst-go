@@ -7,7 +7,9 @@ import (
 )
 
 type Env struct {
-	Port string `mapstructure:"PORT"`
+	Port      string `mapstructure:"PORT"`
+	DB_URL    string `mapstructure:"DB_URL"`
+	REDIS_URL string `mapstructure:"REDIS_URL"`
 }
 
 func NewEnv() *Env {

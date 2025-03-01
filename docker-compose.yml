@@ -1,0 +1,30 @@
+version: '3.8'
+
+volumes:
+  pg_data: {}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jst-go:latest
+    ports:
+      - "${PORT:-8080}:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_PASSWORD=2309
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=app_db
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
