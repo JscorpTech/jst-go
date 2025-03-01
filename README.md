@@ -38,19 +38,37 @@ docker run -p 8080:8080 my-echo-app
 
 ```
 project-name/
-│── main.go
-│── go.mod
-│── go.sum
-├── config/
-│   ├── config.go
-├── handlers/
-│   ├── user_handler.go
-├── models/
-│   ├── user.go
-├── routes/
-│   ├── routes.go
-├── middleware/
-│   ├── auth.go
+├── Makefile
+├── api/
+│   ├── controllers/
+│   │   ├── auth.go
+│   │   ├── controllers.go
+│   │   └── root.go
+│   ├── middlewares/
+│   │   └── middlewares.go
+│   └── routes/
+│       ├── auth.go
+│       ├── root.go
+│       └── routes.go
+├── assets/
+├── bin/
+│   ├── api
+│   └── app
+├── bootstrap/
+│   ├── app.go
+│   └── env.go
+├── cmd/
+│   └── main.go
+├── domain/
+│   └── auth.go
+├── go.mod
+├── go.sum
+├── internal/
+├── pkg/
+├── repository/
+│   └── repository.go
+├── usecase/
+│   └── usecase.go
 ├── .env
 ├── Dockerfile
 ├── README.md
@@ -58,12 +76,12 @@ project-name/
 
 ## 🔥 API Endpointlar
 
-| Yo'l | Metod | Tavsif |
-|------|------|--------|
-| `/health` | GET | API holatini tekshirish |
-| `/users` | GET | Barcha foydalanuvchilar ro'yxati |
-| `/users/:id` | GET | Foydalanuvchi ma'lumotlari |
-| `/users` | POST | Yangi foydalanuvchi qo'shish |
+| Yo'l         | Metod | Tavsif                           |
+| ------------ | ----- | -------------------------------- |
+| `/health`    | GET   | API holatini tekshirish          |
+| `/users`     | GET   | Barcha foydalanuvchilar ro'yxati |
+| `/users/:id` | GET   | Foydalanuvchi ma'lumotlari       |
+| `/users`     | POST  | Yangi foydalanuvchi qo'shish     |
 
 ## ✅ Qo'shimcha
 
