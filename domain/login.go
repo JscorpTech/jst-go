@@ -1,4 +1,8 @@
-package auth
+package domain
+
+import (
+	"github.com/JscorpTech/jst-go/models"
+)
 
 type LoginRequest struct {
 	Username string `json:"username"`
@@ -10,8 +14,8 @@ type LoginResponse struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
-type AuthUsecase interface {
+type LoginUsecase interface {
 	CheckPassword(username, password string) bool
-	CreateUser(username, password string) error
-	GetToken(username, password string) (string, error)
+	GetToken(user *models.UserModel) (*Token, error)
+	Login(username, password string) (*models.UserModel, error)
 }
