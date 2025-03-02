@@ -5,8 +5,8 @@ import (
 )
 
 func (r *Route) InitRootRoute() {
-	controller := controllers.NewRootController()
+	controller := controllers.NewRootController(r.App)
 	router := r.App.Server.Group("")
-	router.GET("", controller.RootController)
-	router.GET("/health", controller.HealthController)
+	router.GET("", controller.RootHandler)
+	router.GET("/health", controller.HealthHandler)
 }

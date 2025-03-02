@@ -8,10 +8,14 @@ type Route struct {
 	App *bootstrap.App
 }
 
-func InitRoutes(app *bootstrap.App) *Route {
-	route := &Route{
+func NewRoute(app *bootstrap.App) *Route {
+	return &Route{
 		App: app,
 	}
+}
+
+func InitRoutes(app *bootstrap.App) *Route {
+	route := NewRoute(app)
 	route.InitRootRoute()
 	route.InitAuthRoute()
 	return route

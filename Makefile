@@ -7,3 +7,6 @@ run:
 
 build:
 	@go build -o ./bin/app ./cmd/main.go
+
+migrate:
+	@go run ./cmd/migrate.go
