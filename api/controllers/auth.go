@@ -48,9 +48,11 @@ func (auth *AuthController) Login(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, token)
 }
+
 func (auth *AuthController) Logout(c echo.Context) error {
 	return c.String(http.StatusOK, "Not Implement!!!")
 }
+
 func (auth *AuthController) Register(c echo.Context) error {
 	var payload domain.RegisterRequest
 
@@ -64,7 +66,7 @@ func (auth *AuthController) Register(c echo.Context) error {
 
 	user, err := auth.RegisterUsecase.CreateUserIfNotExist(payload.Phone, payload.FirstName, payload.LastName, payload.Password)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse(messages.InternalError, domain.ValidationError{
+		return c.JSON(http.StatusBadRequest, domain.ErrorResponse(messages.InternalError, domain.ValidationError{
 			Field:   "phone",
 			Type:    "unique",
 			Message: messages.UserAlreadyExist,
@@ -96,9 +98,11 @@ func (auth *AuthController) User(c echo.Context) error {
 		LastName:  user.LastName,
 	}))
 }
+
 func (auth *AuthController) ResendCode(c echo.Context) error {
 	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", nil))
 }
+
 func (auth *AuthController) ChangePassword(c echo.Context) error {
 	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", nil))
 }
