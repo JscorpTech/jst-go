@@ -5,12 +5,11 @@ import (
 )
 
 type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
+	Phone    string `json:"phone" validate:"required,len=12"`
+	Password string `json:"password" validate:"required,min=6"`
 }
 
 type LoginUsecase interface {
-	CheckPassword(username, password string) bool
 	GetToken(user *models.UserModel) (*Token, error)
-	Login(username, password string) (*models.UserModel, error)
+	Login(phone, password string) (*models.UserModel, error)
 }

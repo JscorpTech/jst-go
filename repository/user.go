@@ -17,11 +17,32 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 }
 
 func (u *UserRepository) Create(phone, firstName, lastName, password string) (*models.UserModel, error) {
-	return &models.UserModel{}, nil
+	user := &models.UserModel{
+		Phone:     phone,
+		FirstName: firstName,
+		LastName:  lastName,
+		Password:  password,
+	}
+	if err := u.DB.Create(user).Error; err != nil {
+		return nil, err
+	}
+	return user, nil
 }
 
 func (u *UserRepository) FindByPhone(phone string) (*models.UserModel, error) {
-	return &models.UserModel{}, nil
+	var user models.UserModel
+	if err := u.DB.First(&user, "phone = ?", phone).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+func (u *UserRepository) FindById(id int) (*models.UserModel, error) {
+	var user models.UserModel
+	if err := u.DB.First(&user, id).Error; err != nil {
+		return nil, err
+	}
+	return &user, nil
 }
 
 func (u *UserRepository) IsAlready(phone string) bool {

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/JscorpTech/jst-go/domain"
 	"github.com/JscorpTech/jst-go/models"
+	"github.com/JscorpTech/jst-go/pkg/utils"
 )
 
 type RegisterUsecase struct {
@@ -17,7 +18,11 @@ func NewRegisterUsecase(userRepository domain.UserRepository) domain.RegisterUse
 }
 
 func (r *RegisterUsecase) CreateUser(phone, firstName, lastName, password string) (*models.UserModel, error) {
-	user, err := r.UserRepository.Create(phone, firstName, lastName, password)
+	passwordHash, err := utils.HashPassword(password)
+	if err != nil {
+		return nil, err
+	}
+	user, err := r.UserRepository.Create(phone, firstName, lastName, passwordHash)
 	if err != nil {
 		return nil, err
 	}

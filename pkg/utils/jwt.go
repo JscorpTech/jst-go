@@ -1,43 +1,57 @@
 package utils
 
 import (
-	"encoding/json"
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/JscorpTech/jst-go/models"
+	"errors"
+	"fmt"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/spf13/viper"
+	"time"
 )
 
 type Jwt struct {
-	ID   int    `json:"id"`
+	Sub  int    `json:"sub"`
 	Type string `json:"type"`
-}
-
-func GenerateToken(user *models.UserModel) (*domain.Token, error) {
-	accessToken, err := GenerateJwt(&Jwt{})
-	if err != nil {
-		return nil, err
-	}
-	refreshToken, err := GenerateJwt(&Jwt{})
-	if err != nil {
-		return nil, err
-	}
-	return &domain.Token{
-		AccessToken:  accessToken,
-		RefreshToken: refreshToken,
-	}, nil
+	Exp  int    `json:"exp"`
+	Iat  int    `json:"iat"`
 }
 
 func GenerateJwt(data *Jwt) (string, error) {
-	res, err := json.Marshal(data)
-	if err != nil {
-		return "", err
-	}
-	return string(res), nil
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"exp":  time.Now().Add(time.Hour * 72).Unix(),
+		"iat":  time.Now().Unix(),
+		"type": data.Type,
+		"sub":  data.Sub,
+	})
+	return token.SignedString([]byte(viper.GetString("KEY")))
 }
 
-func ParseJwt(tokenString []byte) (*Jwt, error) {
-	var res Jwt
-	if err := json.Unmarshal(tokenString, &res); err != nil {
-		return nil, err
+func ParseJwt(tokenString string) (*Jwt, error) {
+	secretKey := []byte(viper.GetString("KEY"))
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+		}
+		return secretKey, nil
+	})
+
+	if err != nil {
+		return nil, fmt.Errorf("tokenni tekshirib bo‘lmadi: %v", err)
 	}
-	return &res, nil
+	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+		sub, _ := claims["sub"].(float64)
+		exp, _ := claims["exp"].(float64)
+		iat, _ := claims["iat"].(float64)
+		tokenType, _ := claims["type"].(string)
+		if tokenType != "access" {
+			return nil, errors.New("this token not access")
+		}
+		return &Jwt{
+			Sub:  int(sub),
+			Exp:  int(exp),
+			Iat:  int(iat),
+			Type: tokenType,
+		}, nil
+	} else {
+		return nil, fmt.Errorf("token noto‘g‘ri yoki muddati tugagan")
+	}
 }

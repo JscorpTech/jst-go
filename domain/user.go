@@ -3,7 +3,7 @@ package domain
 import "github.com/JscorpTech/jst-go/models"
 
 type User struct {
-	Id        uint   `json:"id"`
+	ID        uint   `json:"id"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Phone     string `json:"phone"`
@@ -18,4 +18,5 @@ type UserRepository interface {
 	IsAlready(phone string) bool
 	Create(firstName, LastName, phone, password string) (*models.UserModel, error)
 	FindByPhone(phone string) (*models.UserModel, error)
+	FindById(id int) (*models.UserModel, error)
 }
