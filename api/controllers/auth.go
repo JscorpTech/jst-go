@@ -19,14 +19,11 @@ type AuthController struct {
 }
 
 func NewAuthController(app *bootstrap.App) *AuthController {
+	userRepository := repository.NewUserRepository(app.DB)
 	return &AuthController{
-		App: app,
-		LoginUsecase: usecase.NewLoginUsecase(&repository.UserRepository{
-			DB: app.DB,
-		}),
-		RegisterUsecase: usecase.NewRegisterUsecase(&repository.UserRepository{
-			DB: app.DB,
-		}),
+		App:             app,
+		LoginUsecase:    usecase.NewLoginUsecase(userRepository),
+		RegisterUsecase: usecase.NewRegisterUsecase(userRepository),
 	}
 }
 

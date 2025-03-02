@@ -7,20 +7,20 @@ import (
 )
 
 type Env struct {
-	Port        string `mapstructure:"PORT"`
-	REDIS_URL   string `mapstructure:"REDIS_URL"`
-	DB_USER     string `mapstructure:"DB_USER"`
-	DB_PASSWORD string `mapstructure:"DB_PASSWORD"`
-	DB_HOST     string `mapstructure:"DB_HOST"`
-	DB_PORT     int    `mapstructure:"DB_PORT"`
-	DB_DATABASE string `mapstructure:"DB_DATABASE"`
-	TIMEZONE    string `mapstructure:"TIMEZONE"`
+	Port       string `mapstructure:"PORT"`
+	RedisUrl   string `mapstructure:"REDIS_URL"`
+	DbUser     string `mapstructure:"DB_USER"`
+	DbPassword string `mapstructure:"DB_PASSWORD"`
+	DbHost     string `mapstructure:"DB_HOST"`
+	DbPort     int    `mapstructure:"DB_PORT"`
+	DbDatabase string `mapstructure:"DB_DATABASE"`
+	Timezone   string `mapstructure:"TIMEZONE"`
 }
 
 func NewEnv() *Env {
 	env := Env{}
 	viper.SetConfigFile(".env")
-	viper.SetDefault("TIMEZONE", "Asia/Tashkent")
+	viper.SetDefault("Timezone", "Asia/Tashkent")
 
 	err := viper.ReadInConfig()
 	if err != nil {

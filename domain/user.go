@@ -17,4 +17,5 @@ type Token struct {
 type UserRepository interface {
 	IsAlready(phone string) bool
 	Create(firstName, LastName, phone, password string) (*models.UserModel, error)
+	FindByPhone(phone string) (*models.UserModel, error)
 }

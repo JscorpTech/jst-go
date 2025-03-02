@@ -20,6 +20,10 @@ func (u *UserRepository) Create(phone, firstName, lastName, password string) (*m
 	return &models.UserModel{}, nil
 }
 
+func (u *UserRepository) FindByPhone(phone string) (*models.UserModel, error) {
+	return &models.UserModel{}, nil
+}
+
 func (u *UserRepository) IsAlready(phone string) bool {
 	var count int64
 	u.DB.Model(&models.UserModel{}).Where("phone = ?", phone).Count(&count)

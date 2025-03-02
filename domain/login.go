@@ -9,11 +9,6 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
-type LoginResponse struct {
-	AccessToken  string `json:"access_token"`
-	RefreshToken string `json:"refresh_token"`
-}
-
 type LoginUsecase interface {
 	CheckPassword(username, password string) bool
 	GetToken(user *models.UserModel) (*Token, error)

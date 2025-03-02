@@ -22,3 +22,7 @@ func NewApp() *App {
 		DB:     NewDatabase(env),
 	}
 }
+
+func CloseApp(app *App) {
+	CloseDatabaseConnection(app)
+}
