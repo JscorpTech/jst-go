@@ -17,7 +17,7 @@ func NewRegisterUsecase(userRepository domain.UserRepository) domain.RegisterUse
 	}
 }
 
-func (r *RegisterUsecase) CreateUser(phone, firstName, lastName, password string) (*models.UserModel, error) {
+func (r *RegisterUsecase) CreateUser(phone, firstName, lastName, password string) (*models.User, error) {
 	passwordHash, err := utils.HashPassword(password)
 	if err != nil {
 		return nil, err
@@ -29,7 +29,7 @@ func (r *RegisterUsecase) CreateUser(phone, firstName, lastName, password string
 	return user, nil
 }
 
-func (r *RegisterUsecase) CreateUserIfNotExist(phone, firstName, lastName, password string) (*models.UserModel, error) {
+func (r *RegisterUsecase) CreateUserIfNotExist(phone, firstName, lastName, password string) (*models.User, error) {
 	if r.UserRepository.IsAlready(phone) {
 		return nil, errors.New("user already exists")
 	}

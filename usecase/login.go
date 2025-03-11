@@ -17,7 +17,7 @@ func NewLoginUsecase(userRepository domain.UserRepository) domain.LoginUsecase {
 	}
 }
 
-func (au *LoginUsecase) GetToken(user *models.UserModel) (*domain.Token, error) {
+func (au *LoginUsecase) GetToken(user *models.User) (*domain.Token, error) {
 	accessToken, err := utils.GenerateJwt(&utils.Jwt{
 		Sub:  int(user.ID),
 		Type: "access",
@@ -38,7 +38,7 @@ func (au *LoginUsecase) GetToken(user *models.UserModel) (*domain.Token, error) 
 	}, nil
 }
 
-func (au *LoginUsecase) Login(phone string, password string) (*models.UserModel, error) {
+func (au *LoginUsecase) Login(phone string, password string) (*models.User, error) {
 	user, err := au.UserRepository.FindByPhone(phone)
 	if err != nil {
 		return nil, err

@@ -15,6 +15,6 @@ type RegisterResponse struct {
 }
 
 type RegisterUsecase interface {
-	CreateUser(phone, firstName, lastName, password string) (*models.UserModel, error)
-	CreateUserIfNotExist(phone, firstName, lastName, password string) (*models.UserModel, error)
+	CreateUser(phone, firstName, lastName, password string) (*models.User, error)
+	CreateUserIfNotExist(phone, firstName, lastName, password string) (*models.User, error)
 }

@@ -2,14 +2,25 @@ package models
 
 import "gorm.io/gorm"
 
-type UserModel struct {
+type User struct {
 	gorm.Model
-	FirstName string `gorm:"not null"`
-	LastName  string `gorm:"type:varchar(255)"`
-	Phone     string `gorm:"type:varchar(255)"`
-	Password  string `gorm:"type:varchar(255)"`
+	FirstName string  `gorm:"not null"`
+	LastName  string  `gorm:"type:varchar(255)"`
+	Phone     string  `gorm:"type:varchar(255)"`
+	Password  string  `gorm:"type:varchar(255)"`
+	Tokens    []Token `gorm:"constraint:OnDelete:CASCADE"`
 }
 
-func (u *UserModel) TableName() string {
+type Token struct {
+	gorm.Model
+	UserID uint
+	User   User
+}
+
+func (t *Token) TableName() string {
+	return "tokens"
+}
+
+func (u *User) TableName() string {
 	return "users"
 }

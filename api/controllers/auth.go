@@ -90,7 +90,7 @@ func (auth *AuthController) Register(c echo.Context) error {
 }
 
 func (auth *AuthController) User(c echo.Context) error {
-	user, _ := c.Get("user").(*models.UserModel)
+	user, _ := c.Get("user").(*models.User)
 	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", &domain.User{
 		ID:        user.ID,
 		Phone:     user.Phone,

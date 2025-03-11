@@ -10,6 +10,6 @@ type LoginRequest struct {
 }
 
 type LoginUsecase interface {
-	GetToken(user *models.UserModel) (*Token, error)
-	Login(phone, password string) (*models.UserModel, error)
+	GetToken(user *models.User) (*Token, error)
+	Login(phone, password string) (*models.User, error)
 }

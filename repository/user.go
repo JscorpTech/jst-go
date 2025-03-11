@@ -16,8 +16,8 @@ func NewUserRepository(db *gorm.DB) domain.UserRepository {
 	}
 }
 
-func (u *UserRepository) Create(phone, firstName, lastName, password string) (*models.UserModel, error) {
-	user := &models.UserModel{
+func (u *UserRepository) Create(phone, firstName, lastName, password string) (*models.User, error) {
+	user := &models.User{
 		Phone:     phone,
 		FirstName: firstName,
 		LastName:  lastName,
@@ -29,16 +29,16 @@ func (u *UserRepository) Create(phone, firstName, lastName, password string) (*m
 	return user, nil
 }
 
-func (u *UserRepository) FindByPhone(phone string) (*models.UserModel, error) {
-	var user models.UserModel
+func (u *UserRepository) FindByPhone(phone string) (*models.User, error) {
+	var user models.User
 	if err := u.DB.First(&user, "phone = ?", phone).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil
 }
 
-func (u *UserRepository) FindById(id int) (*models.UserModel, error) {
-	var user models.UserModel
+func (u *UserRepository) FindById(id int) (*models.User, error) {
+	var user models.User
 	if err := u.DB.First(&user, id).Error; err != nil {
 		return nil, err
 	}
@@ -47,6 +47,6 @@ func (u *UserRepository) FindById(id int) (*models.UserModel, error) {
 
 func (u *UserRepository) IsAlready(phone string) bool {
 	var count int64
-	u.DB.Model(&models.UserModel{}).Where("phone = ?", phone).Count(&count)
+	u.DB.Model(&models.User{}).Where("phone = ?", phone).Count(&count)
 	return count > 0
 }
