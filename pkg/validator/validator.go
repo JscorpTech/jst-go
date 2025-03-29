@@ -2,19 +2,20 @@ package validator
 
 import (
 	"fmt"
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/go-playground/validator/v10"
 	"reflect"
+
+	"github.com/JscorpTech/jst-go/internal/domain/dto"
+	"github.com/go-playground/validator/v10"
 )
 
-func ValidateRequest(st interface{}) []domain.ValidationError {
+func ValidateRequest(st interface{}) []dto.ValidationError {
 	validate := validator.New()
 	err := validate.Struct(st)
 	reflected := reflect.TypeOf(st)
 	if reflected.Kind() == reflect.Ptr {
 		reflected = reflected.Elem()
 	}
-	var errors []domain.ValidationError
+	var errors []dto.ValidationError
 	var message string
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
@@ -31,7 +32,7 @@ func ValidateRequest(st interface{}) []domain.ValidationError {
 			default:
 				message = fmt.Sprintf("%s is not a valid type", fieldName)
 			}
-			errors = append(errors, domain.ValidationError{
+			errors = append(errors, dto.ValidationError{
 				Field:   fieldName,
 				Type:    err.Tag(),
 				Message: message,

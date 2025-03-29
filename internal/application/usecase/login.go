@@ -2,22 +2,24 @@ package usecase
 
 import (
 	"errors"
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/JscorpTech/jst-go/models"
+
+	"github.com/JscorpTech/jst-go/internal/domain/dto"
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"github.com/JscorpTech/jst-go/internal/models"
 	"github.com/JscorpTech/jst-go/pkg/utils"
 )
 
 type LoginUsecase struct {
-	UserRepository domain.UserRepository
+	UserRepository interfaces.UserRepositoryPort
 }
 
-func NewLoginUsecase(userRepository domain.UserRepository) domain.LoginUsecase {
+func NewLoginUsecase(userRepository interfaces.UserRepositoryPort) interfaces.LoginUsecasePort {
 	return &LoginUsecase{
 		UserRepository: userRepository,
 	}
 }
 
-func (au *LoginUsecase) GetToken(user *models.User) (*domain.Token, error) {
+func (au *LoginUsecase) GetToken(user *models.User) (*dto.Token, error) {
 	accessToken, err := utils.GenerateJwt(&utils.Jwt{
 		Sub:  int(user.ID),
 		Type: "access",
@@ -32,7 +34,7 @@ func (au *LoginUsecase) GetToken(user *models.User) (*domain.Token, error) {
 	if err != nil {
 		return nil, err
 	}
-	return &domain.Token{
+	return &dto.Token{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 	}, nil

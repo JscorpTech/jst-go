@@ -1,6 +1,9 @@
-package domain
+package dto
 
-import "github.com/JscorpTech/jst-go/models"
+type LoginRequest struct {
+	Phone    string `json:"phone" validate:"required,len=12"`
+	Password string `json:"password" validate:"required,min=6"`
+}
 
 type RegisterRequest struct {
 	FirstName string `json:"first_name" validate:"required"`
@@ -12,9 +15,4 @@ type RegisterRequest struct {
 type RegisterResponse struct {
 	User  User  `json:"user"`
 	Token Token `json:"token"`
-}
-
-type RegisterUsecase interface {
-	CreateUser(phone, firstName, lastName, password string) (*models.User, error)
-	CreateUserIfNotExist(phone, firstName, lastName, password string) (*models.User, error)
 }

@@ -2,16 +2,17 @@ package usecase
 
 import (
 	"errors"
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/JscorpTech/jst-go/models"
+
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"github.com/JscorpTech/jst-go/internal/models"
 	"github.com/JscorpTech/jst-go/pkg/utils"
 )
 
 type RegisterUsecase struct {
-	UserRepository domain.UserRepository
+	UserRepository interfaces.UserRepositoryPort
 }
 
-func NewRegisterUsecase(userRepository domain.UserRepository) domain.RegisterUsecase {
+func NewRegisterUsecase(userRepository interfaces.UserRepositoryPort) interfaces.RegisterUsecasePort {
 	return &RegisterUsecase{
 		UserRepository: userRepository,
 	}

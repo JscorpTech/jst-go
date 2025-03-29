@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/JscorpTech/jst-go/models"
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"github.com/JscorpTech/jst-go/internal/models"
 	"gorm.io/gorm"
 )
 
@@ -10,7 +10,7 @@ type UserRepository struct {
 	DB *gorm.DB
 }
 
-func NewUserRepository(db *gorm.DB) domain.UserRepository {
+func NewUserRepository(db *gorm.DB) interfaces.UserRepositoryPort {
 	return &UserRepository{
 		DB: db,
 	}

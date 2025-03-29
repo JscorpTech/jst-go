@@ -1,21 +1,24 @@
 package controllers
 
 import (
-	"github.com/JscorpTech/jst-go/bootstrap"
-	"github.com/JscorpTech/jst-go/domain"
-	"github.com/JscorpTech/jst-go/models"
-	"github.com/JscorpTech/jst-go/pkg/messages"
-	"github.com/JscorpTech/jst-go/pkg/validator"
-	"github.com/JscorpTech/jst-go/repository"
-	"github.com/JscorpTech/jst-go/usecase"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/JscorpTech/jst-go/internal/application/usecase"
+	"github.com/JscorpTech/jst-go/internal/bootstrap"
+	"github.com/JscorpTech/jst-go/internal/domain/dto"
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"github.com/JscorpTech/jst-go/internal/models"
+	"github.com/JscorpTech/jst-go/internal/repository"
+	"github.com/JscorpTech/jst-go/internal/shared/messages"
+	"github.com/JscorpTech/jst-go/pkg/utils"
+	"github.com/JscorpTech/jst-go/pkg/validator"
+	"github.com/labstack/echo/v4"
 )
 
 type AuthController struct {
 	App             *bootstrap.App
-	LoginUsecase    domain.LoginUsecase
-	RegisterUsecase domain.RegisterUsecase
+	LoginUsecase    interfaces.LoginUsecasePort
+	RegisterUsecase interfaces.RegisterUsecasePort
 }
 
 func NewAuthController(app *bootstrap.App) *AuthController {
@@ -28,23 +31,23 @@ func NewAuthController(app *bootstrap.App) *AuthController {
 }
 
 func (auth *AuthController) Login(c echo.Context) error {
-	var payload domain.LoginRequest
+	var payload dto.LoginRequest
 
 	if err := c.Bind(&payload); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if err := validator.ValidateRequest(payload); err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse(messages.ValidationError, err))
+		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(messages.ValidationError, err))
 	}
 
 	user, err := auth.LoginUsecase.Login(payload.Phone, payload.Password)
 	if err != nil {
-		return c.JSON(http.StatusForbidden, domain.ErrorResponse(messages.PermissionDenied, nil))
+		return c.JSON(http.StatusForbidden, utils.ErrorResponse(messages.PermissionDenied, nil))
 	}
 	token, err := auth.LoginUsecase.GetToken(user)
 	if err != nil {
-		return c.JSON(http.StatusForbidden, domain.ErrorResponse(messages.PermissionDenied, nil))
+		return c.JSON(http.StatusForbidden, utils.ErrorResponse(messages.PermissionDenied, nil))
 	}
 	return c.JSON(http.StatusOK, token)
 }
@@ -54,19 +57,19 @@ func (auth *AuthController) Logout(c echo.Context) error {
 }
 
 func (auth *AuthController) Register(c echo.Context) error {
-	var payload domain.RegisterRequest
+	var payload dto.RegisterRequest
 
 	if err := c.Bind(&payload); err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse(messages.BadRequest, nil))
+		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(messages.BadRequest, nil))
 	}
 
 	if err := validator.ValidateRequest(payload); err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse(messages.ValidationError, err))
+		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(messages.ValidationError, err))
 	}
 
 	user, err := auth.RegisterUsecase.CreateUserIfNotExist(payload.Phone, payload.FirstName, payload.LastName, payload.Password)
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, domain.ErrorResponse(messages.InternalError, domain.ValidationError{
+		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(messages.InternalError, dto.ValidationError{
 			Field:   "phone",
 			Type:    "unique",
 			Message: messages.UserAlreadyExist,
@@ -75,11 +78,11 @@ func (auth *AuthController) Register(c echo.Context) error {
 
 	token, err := auth.LoginUsecase.GetToken(user)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, domain.ErrorResponse(messages.InternalError, err))
+		return c.JSON(http.StatusInternalServerError, utils.ErrorResponse(messages.InternalError, err))
 	}
 
-	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", domain.RegisterResponse{
-		User: domain.User{
+	return c.JSON(http.StatusOK, utils.SuccessResponse("OK", dto.RegisterResponse{
+		User: dto.User{
 			ID:        user.ID,
 			Phone:     user.Phone,
 			FirstName: user.FirstName,
@@ -91,7 +94,7 @@ func (auth *AuthController) Register(c echo.Context) error {
 
 func (auth *AuthController) User(c echo.Context) error {
 	user, _ := c.Get("user").(*models.User)
-	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", &domain.User{
+	return c.JSON(http.StatusOK, utils.SuccessResponse("OK", &dto.User{
 		ID:        user.ID,
 		Phone:     user.Phone,
 		FirstName: user.FirstName,
@@ -100,9 +103,9 @@ func (auth *AuthController) User(c echo.Context) error {
 }
 
 func (auth *AuthController) ResendCode(c echo.Context) error {
-	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", nil))
+	return c.JSON(http.StatusOK, utils.SuccessResponse("OK", nil))
 }
 
 func (auth *AuthController) ChangePassword(c echo.Context) error {
-	return c.JSON(http.StatusOK, domain.SuccessResponse("OK", nil))
+	return c.JSON(http.StatusOK, utils.SuccessResponse("OK", nil))
 }

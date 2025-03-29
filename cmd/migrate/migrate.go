@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/JscorpTech/jst-go/bootstrap"
-	"github.com/JscorpTech/jst-go/models"
+	"github.com/JscorpTech/jst-go/internal/bootstrap"
+	"github.com/JscorpTech/jst-go/internal/models"
 	"gorm.io/gorm"
 )
 

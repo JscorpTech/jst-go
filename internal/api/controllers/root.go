@@ -1,9 +1,10 @@
 package controllers
 
 import (
-	"github.com/JscorpTech/jst-go/bootstrap"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/JscorpTech/jst-go/internal/bootstrap"
+	"github.com/labstack/echo/v4"
 )
 
 type RootController struct {

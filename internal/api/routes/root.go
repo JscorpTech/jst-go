@@ -1,8 +1,6 @@
 package routes
 
-import (
-	"github.com/JscorpTech/jst-go/api/controllers"
-)
+import "github.com/JscorpTech/jst-go/internal/api/controllers"
 
 func (r *Route) InitRootRoute() {
 	controller := controllers.NewRootController(r.App)

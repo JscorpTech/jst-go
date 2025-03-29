@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/JscorpTech/jst-go/api/routes"
-	"github.com/JscorpTech/jst-go/bootstrap"
+	"github.com/JscorpTech/jst-go/internal/api/routes"
+	"github.com/JscorpTech/jst-go/internal/bootstrap"
 )
 
 func main() {

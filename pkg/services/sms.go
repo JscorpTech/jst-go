@@ -2,12 +2,11 @@ package services
 
 import (
 	"fmt"
-	"github.com/JscorpTech/jst-go/domain"
 )
 
 type SmsService struct{}
 
-func NewSmsService() domain.SmsService {
+func NewSmsService() *SmsService {
 	return &SmsService{}
 }
 

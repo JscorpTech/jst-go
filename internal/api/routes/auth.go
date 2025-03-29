@@ -1,9 +1,9 @@
 package routes
 
 import (
-	"github.com/JscorpTech/jst-go/api/controllers"
-	"github.com/JscorpTech/jst-go/api/middlewares"
-	"github.com/JscorpTech/jst-go/repository"
+	"github.com/JscorpTech/jst-go/internal/api/controllers"
+	"github.com/JscorpTech/jst-go/internal/api/middlewares"
+	"github.com/JscorpTech/jst-go/internal/repository"
 )
 
 func (r *Route) InitAuthRoute() {

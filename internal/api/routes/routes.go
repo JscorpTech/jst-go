@@ -1,8 +1,6 @@
 package routes
 
-import (
-	"github.com/JscorpTech/jst-go/bootstrap"
-)
+import "github.com/JscorpTech/jst-go/internal/bootstrap"
 
 type Route struct {
 	App *bootstrap.App
