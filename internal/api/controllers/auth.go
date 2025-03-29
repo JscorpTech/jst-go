@@ -49,7 +49,7 @@ func (auth *AuthController) Login(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusForbidden, utils.ErrorResponse(messages.PermissionDenied, nil))
 	}
-	return c.JSON(http.StatusOK, token)
+	return c.JSON(http.StatusOK, utils.SuccessResponse("OK", token))
 }
 
 func (auth *AuthController) Logout(c echo.Context) error {

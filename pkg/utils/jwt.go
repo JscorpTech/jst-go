@@ -10,7 +10,7 @@ import (
 )
 
 type Jwt struct {
-	Sub  int    `json:"sub"`
+	Sub  uint   `json:"sub"`
 	Type string `json:"type"`
 	Exp  int    `json:"exp"`
 	Iat  int    `json:"iat"`
@@ -47,7 +47,7 @@ func ParseJwt(tokenString string) (*Jwt, error) {
 			return nil, errors.New("this token not access")
 		}
 		return &Jwt{
-			Sub:  int(sub),
+			Sub:  uint(sub),
 			Exp:  int(exp),
 			Iat:  int(iat),
 			Type: tokenType,

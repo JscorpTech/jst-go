@@ -6,5 +6,5 @@ type UserRepositoryPort interface {
 	IsAlready(phone string) bool
 	Create(firstName, LastName, phone, password string) (*models.User, error)
 	FindByPhone(phone string) (*models.User, error)
-	FindById(id int) (*models.User, error)
+	FindByID(id uint) (*models.User, error)
 }

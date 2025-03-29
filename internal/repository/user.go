@@ -8,11 +8,13 @@ import (
 
 type UserRepository struct {
 	DB *gorm.DB
+	BaseRepository[models.User]
 }
 
 func NewUserRepository(db *gorm.DB) interfaces.UserRepositoryPort {
 	return &UserRepository{
-		DB: db,
+		DB:             db,
+		BaseRepository: NewBaseRepository[models.User](db),
 	}
 }
 
@@ -32,14 +34,6 @@ func (u *UserRepository) Create(phone, firstName, lastName, password string) (*m
 func (u *UserRepository) FindByPhone(phone string) (*models.User, error) {
 	var user models.User
 	if err := u.DB.First(&user, "phone = ?", phone).Error; err != nil {
-		return nil, err
-	}
-	return &user, nil
-}
-
-func (u *UserRepository) FindById(id int) (*models.User, error) {
-	var user models.User
-	if err := u.DB.First(&user, id).Error; err != nil {
 		return nil, err
 	}
 	return &user, nil

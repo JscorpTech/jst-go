@@ -1,12 +1,12 @@
 
 air:
-	@air --build.cmd "go build -o bin/api ./cmd/main.go" --build.bin "./bin/api"
+	@air --build.cmd "go build -o bin/api ./cmd/api/main.go" --build.bin "./bin/api"
 
 run:
-	@go run ./cmd/main.go
+	@go run ./cmd/api/main.go
 
 build:
-	@go build -o ./bin/app ./cmd/main.go
+	@go build -o ./bin/app ./cmd/api/main.go
 
 migrate:
-	@go run ./cmd/migrate.go
+	@go run ./cmd/api/migrate.go

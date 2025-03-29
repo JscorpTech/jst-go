@@ -17,7 +17,7 @@ func AuthMiddleware(repository interfaces.UserRepositoryPort) echo.MiddlewareFun
 			if err != nil {
 				return c.JSON(http.StatusForbidden, utils.ErrorResponse(err.Error(), nil))
 			}
-			user, err := repository.FindById(data.Sub)
+			user, err := repository.FindByID(data.Sub)
 			if err != nil {
 				return c.JSON(http.StatusForbidden, utils.ErrorResponse(err.Error(), nil))
 			}

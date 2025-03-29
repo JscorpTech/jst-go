@@ -21,14 +21,14 @@ func NewLoginUsecase(userRepository interfaces.UserRepositoryPort) interfaces.Lo
 
 func (au *LoginUsecase) GetToken(user *models.User) (*dto.Token, error) {
 	accessToken, err := utils.GenerateJwt(&utils.Jwt{
-		Sub:  int(user.ID),
+		Sub:  uint(user.ID),
 		Type: "access",
 	})
 	if err != nil {
 		return nil, err
 	}
 	refreshToken, err := utils.GenerateJwt(&utils.Jwt{
-		Sub:  int(user.ID),
+		Sub:  uint(user.ID),
 		Type: "refresh",
 	})
 	if err != nil {
