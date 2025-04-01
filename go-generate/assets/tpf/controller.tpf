@@ -1,0 +1,10 @@
+{{if .IsNew}}
+package controllers
+
+{{end}}
+
+type {{.Name}} struct {}
+
+func New{{.Name}}() *{{.Name}}{
+    return &{{.Name}}{}
+}

@@ -1,0 +1,12 @@
+{{if .IsNew}}
+package interfaces
+
+{{end}}
+
+type {{.Name}}UsecasePort interface {
+    // not implement
+}
+
+type {{.Name}}RepositoryPort interface {
+    // not implement
+}

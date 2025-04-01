@@ -1,0 +1,10 @@
+{{if .IsNew}}
+package repository
+
+{{end}}
+
+type {{.Name}}Repository struct {}
+
+func ({{.Prefix}} *{{.Name}}Repository) New{{.Name}}Repository() interfaces.{{.Name}}RepositoryPort{
+    return &{{.Name}}Repository{}
+}

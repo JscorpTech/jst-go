@@ -1,0 +1,12 @@
+{{if .IsNew}}
+package dto
+
+{{end}}
+
+type {{.Name}}Request struct {
+    // not implement
+}
+
+type {{.Name}}Response struct {
+    // not implement
+}
