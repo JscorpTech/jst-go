@@ -7,7 +7,14 @@ type PostCreateReuqest struct {
 }
 
 type PostListResponse struct {
-	ID    int    `json:"id"`
+	ID    uint   `json:"id"`
+	Title string `json:"title"`
+	Desc  string `json:"desc"`
+	Image string `json:"image"`
+}
+
+type PostDetailResponse struct {
+	ID    uint   `json:"id"`
 	Title string `json:"title"`
 	Desc  string `json:"desc"`
 	Image string `json:"image"`
