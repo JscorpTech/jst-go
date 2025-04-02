@@ -2,7 +2,7 @@ package interfaces
 
 import "gorm.io/gorm"
 
-type BaseRepository[T any] interface {
+type BaseRepositoryPort[T any] interface {
 	Create(entity *T) error
 	FindByID(id uint) (*T, error)
 	FindAll() ([]T, error)
@@ -11,7 +11,7 @@ type BaseRepository[T any] interface {
 	Filter(model *T, query string, params ...any) *gorm.DB
 }
 
-type BaseUsecase[T BaseRepository[U], U any] interface {
+type BaseUsecasePort[T BaseRepositoryPort[U], U any] interface {
 	Create(entity *U) error
 	FindByID(id uint) (*U, error)
 	FindAll() ([]U, error)

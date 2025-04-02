@@ -5,9 +5,9 @@ import (
 )
 
 type PostRepositoryPort interface {
-	BaseRepository[models.PostModel]
+	BaseRepositoryPort[models.PostModel]
 }
 
 type PostUsecasePort interface {
-	BaseUsecase[PostRepositoryPort, models.PostModel]
+	BaseUsecasePort[PostRepositoryPort, models.PostModel]
 }

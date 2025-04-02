@@ -5,11 +5,11 @@ import (
 	"gorm.io/gorm"
 )
 
-type baseUsecase[T interfaces.BaseRepository[U], U any] struct {
+type baseUsecase[T interfaces.BaseRepositoryPort[U], U any] struct {
 	repository T
 }
 
-func NewBaseUsecase[T interfaces.BaseRepository[U], U any](repository T) interfaces.BaseUsecase[T, U] {
+func NewBaseUsecase[T interfaces.BaseRepositoryPort[U], U any](repository T) interfaces.BaseUsecasePort[T, U] {
 	return &baseUsecase[T, U]{
 		repository: repository,
 	}

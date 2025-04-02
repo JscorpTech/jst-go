@@ -7,11 +7,11 @@ import (
 )
 
 type PostRepository struct {
-	interfaces.BaseRepository[models.PostModel]
+	interfaces.BaseRepositoryPort[models.PostModel]
 }
 
 func NewPostRepository(db *gorm.DB) interfaces.PostRepositoryPort {
 	return &PostRepository{
-		BaseRepository: NewBaseRepository[models.PostModel](db),
+		BaseRepositoryPort: NewBaseRepository[models.PostModel](db),
 	}
 }

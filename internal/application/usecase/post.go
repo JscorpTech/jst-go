@@ -8,11 +8,11 @@ import (
 )
 
 type postUsecase struct {
-	interfaces.BaseUsecase[interfaces.PostRepositoryPort, models.PostModel]
+	interfaces.BaseUsecasePort[interfaces.PostRepositoryPort, models.PostModel]
 }
 
 func NewPostUsecase(app *bootstrap.App) interfaces.PostUsecasePort {
 	return &postUsecase{
-		BaseUsecase: NewBaseUsecase(repository.NewPostRepository(app.DB)),
+		BaseUsecasePort: NewBaseUsecase(repository.NewPostRepository(app.DB)),
 	}
 }

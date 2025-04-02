@@ -10,7 +10,7 @@ type baseRepository[T any] struct {
 }
 
 // Yangi repository yaratish
-func NewBaseRepository[T any](db *gorm.DB) interfaces.BaseRepository[T] {
+func NewBaseRepository[T any](db *gorm.DB) interfaces.BaseRepositoryPort[T] {
 	return &baseRepository[T]{db: db}
 }
 
