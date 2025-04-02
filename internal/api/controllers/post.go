@@ -4,11 +4,11 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/JscorpTech/jst-go/internal/application/usecase"
 	"github.com/JscorpTech/jst-go/internal/bootstrap"
 	"github.com/JscorpTech/jst-go/internal/domain/dto"
 	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
 	"github.com/JscorpTech/jst-go/internal/models"
-	"github.com/JscorpTech/jst-go/internal/repository"
 	"github.com/JscorpTech/jst-go/internal/shared/messages"
 	"github.com/JscorpTech/jst-go/pkg/utils"
 	"github.com/JscorpTech/jst-go/pkg/validator"
@@ -21,7 +21,7 @@ type PostController struct {
 
 func NewPostController(app *bootstrap.App) *PostController {
 	return &PostController{
-		PostUsecase: repository.NewPostRepository(app.DB),
+		PostUsecase: usecase.NewPostUsecase(app),
 	}
 }
 
