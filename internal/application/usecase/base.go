@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	"errors"
+
 	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
 	"gorm.io/gorm"
 )
@@ -15,8 +17,8 @@ func NewBaseUsecase[T interfaces.BaseRepositoryPort[U], U any](repository T) int
 	}
 }
 
-func (u *baseUsecase[T, U]) Create(entity *U) error {
-	return u.repository.Create(entity)
+func (u *baseUsecase[T, U]) Create(payload any) (*U, error) {
+	return nil, errors.New("not implement")
 }
 
 func (u *baseUsecase[T, U]) FindByID(id uint) (*U, error) {

@@ -53,12 +53,10 @@ func (p *PostController) Create(c echo.Context) error {
 	if err := validator.ValidateRequest(&payload); err != nil {
 		return c.JSON(http.StatusBadRequest, utils.ErrorResponse(messages.ValidationError, err))
 	}
-	post := models.PostModel{
-		Title: payload.Title,
-		Desc:  payload.Desc,
-		Image: payload.Image,
+	post, err := p.PostUsecase.Create(payload)
+	if err != nil {
+		return c.JSON(http.StatusServiceUnavailable, utils.ErrorResponse("Creating error", nil))
 	}
-	p.PostUsecase.Create(&post)
 	return c.JSON(http.StatusCreated, post)
 }
 

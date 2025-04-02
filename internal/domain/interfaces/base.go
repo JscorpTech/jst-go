@@ -12,7 +12,7 @@ type BaseRepositoryPort[T any] interface {
 }
 
 type BaseUsecasePort[T BaseRepositoryPort[U], U any] interface {
-	Create(entity *U) error
+	Create(payload any) (*U, error)
 	FindByID(id uint) (*U, error)
 	FindAll() ([]U, error)
 	Update(entity *U) error
