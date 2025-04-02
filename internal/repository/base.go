@@ -1,21 +1,16 @@
 package repository
 
-import "gorm.io/gorm"
-
-type BaseRepository[T any] interface {
-	Create(entity *T) error
-	FindByID(id uint) (*T, error)
-	FindAll() ([]T, error)
-	Update(entity *T) error
-	Delete(id uint) error
-}
+import (
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"gorm.io/gorm"
+)
 
 type baseRepository[T any] struct {
 	db *gorm.DB
 }
 
 // Yangi repository yaratish
-func NewBaseRepository[T any](db *gorm.DB) BaseRepository[T] {
+func NewBaseRepository[T any](db *gorm.DB) interfaces.BaseRepository[T] {
 	return &baseRepository[T]{db: db}
 }
 
@@ -50,4 +45,8 @@ func (r *baseRepository[T]) Update(entity *T) error {
 // Delete
 func (r *baseRepository[T]) Delete(id uint) error {
 	return r.db.Delete(new(T), id).Error
+}
+
+func (r *baseRepository[T]) Filter(model *T, query string, params ...any) *gorm.DB {
+	return r.db.Model(model).Where(query, params...)
 }

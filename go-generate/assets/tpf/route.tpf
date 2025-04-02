@@ -1,0 +1,12 @@
+{{if .IsNew}}
+package routes
+import "github.com/JscorpTech/jst-go/internal/api/controllers"
+
+{{end}}
+
+
+func (r *Route) Init{{.Name}}Route() {
+	controller := controllers.New{{.Name}}Controller(r.App)
+	router := r.App.Server.Group("")
+	router.GET("", controller.List)
+}

@@ -8,7 +8,7 @@ import (
 
 type UserRepository struct {
 	DB *gorm.DB
-	BaseRepository[models.User]
+	interfaces.BaseRepository[models.User]
 }
 
 func NewUserRepository(db *gorm.DB) interfaces.UserRepositoryPort {

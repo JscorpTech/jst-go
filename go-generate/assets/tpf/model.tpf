@@ -1,0 +1,15 @@
+{{if .IsNew}}
+package models
+import "gorm.io/gorm"
+
+{{end}}
+
+type {{.Name}}Model struct {
+	gorm.Model
+	// Fields
+}
+
+
+func (t *{{.Name}}) TableName() string {
+	return "{{.NameLower}}"
+}

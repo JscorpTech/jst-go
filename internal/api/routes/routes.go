@@ -16,5 +16,6 @@ func InitRoutes(app *bootstrap.App) *Route {
 	route := NewRoute(app)
 	route.InitRootRoute()
 	route.InitAuthRoute()
+	route.InitPostRoute()
 	return route
 }

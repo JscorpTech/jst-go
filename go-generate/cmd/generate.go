@@ -22,9 +22,10 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tpfService := services.NewTpf[domain.TemplateData]()
 		tpfService.Generate(tpfService.Read("controller"), domain.TemplateData{
-			Name:   "User",
-			IsNew:  true,
-			Prefix: "u",
+			Name:      "User",
+			IsNew:     true,
+			Prefix:    "u",
+			NameLower: "user",
 		})
 	},
 }

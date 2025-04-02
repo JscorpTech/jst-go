@@ -12,6 +12,7 @@ import (
 var modelsToMigrate = []interface{}{
 	&models.User{},
 	&models.Token{},
+	&models.PostModel{},
 }
 
 func getTableName(db *gorm.DB, model interface{}) string {
