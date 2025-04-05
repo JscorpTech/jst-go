@@ -9,19 +9,19 @@ import (
 	"gorm.io/gorm"
 )
 
-var modelsToMigrate = []interface{}{
+var modelsToMigrate = []any{
 	&models.User{},
 	&models.Token{},
 	&models.PostModel{},
 }
 
-func getTableName(db *gorm.DB, model interface{}) string {
+func getTableName(db *gorm.DB, model any) string {
 	stmt := &gorm.Statement{DB: db}
 	_ = stmt.Parse(model)
 	return stmt.Schema.Table
 }
 
-func migrateTablesIndividually(db *gorm.DB, models []interface{}) {
+func migrateTablesIndividually(db *gorm.DB, models []any) {
 	for _, model := range models {
 		tableName := getTableName(db, model)
 
