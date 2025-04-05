@@ -1,0 +1,68 @@
+{{if .IsNew}}
+package usecase
+
+import (
+	"github.com/JscorpTech/jst-go/internal/bootstrap"
+	"github.com/JscorpTech/jst-go/internal/domain/dto"
+	"github.com/JscorpTech/jst-go/internal/domain/interfaces"
+	"github.com/JscorpTech/jst-go/internal/models"
+	"github.com/JscorpTech/jst-go/internal/repository"
+	"github.com/jinzhu/copier"
+	"gorm.io/gorm"
+)
+
+{{end}}
+
+type {{.NameLower}}Usecase struct {
+	{{.Name}}Repository interfaces.{{.Name}}RepositoryPort
+}
+
+func New{{.Name}}Usecase(app *bootstrap.App) interfaces.{{.Name}}UsecasePort {
+	return &{{.NameLower}}Usecase{
+		{{.Name}}Repository: repository.New{{.Name}}Repository(app.DB),
+	}
+}
+
+func (u *{{.NameLower}}Usecase) FindByID(id uint) (*dto.{{.Name}}DetailResponse, error) {
+	var response dto.{{.Name}}DetailResponse
+	instance, err := u.{{.Name}}Repository.FindByID(id)
+	if err != nil {
+		return nil, err
+	}
+	copier.Copy(&response, &instance)
+	return &response, nil
+}
+
+func (u *{{.NameLower}}Usecase) FindAll() ([]dto.{{.Name}}ListResponse, error) {
+	var response []dto.{{.Name}}ListResponse
+	instances, err := u.{{.Name}}Repository.FindAll()
+	if err != nil {
+		return nil, err
+	}
+	copier.Copy(&response, &instances)
+	return response, nil
+}
+
+func (u *{{.NameLower}}Usecase) Update(entity *models.{{.Name}}Model) error {
+	return u.{{.Name}}Repository.Update(entity)
+}
+
+func (u *{{.NameLower}}Usecase) Delete(id uint) error {
+	return u.{{.Name}}Repository.Delete(id)
+}
+
+func (u *{{.NameLower}}Usecase) Filter(model *models.{{.Name}}Model, query string, params ...any) *gorm.DB {
+	return u.{{.Name}}Repository.Filter(model, query, params...)
+}
+
+func (p *{{.NameLower}}Usecase) Create(payload dto.{{.Name}}CreateReuqest) (*dto.{{.Name}}DetailResponse, error) {
+	var response dto.{{.Name}}DetailResponse
+	instance := models.{{.Name}}Model{
+        // Fields
+    }
+	if err := p.{{.Name}}Repository.Create(&instance); err != nil {
+		return nil, err
+	}
+	copier.Copy(&response, &instance)
+	return &response, nil
+}

@@ -1,0 +1,18 @@
+{{if .IsNew}}
+package dto
+
+{{end}}
+
+type {{.Name}}CreateReuqest struct {
+	Name string `json:"name" validate:"required"`
+}
+
+type {{.Name}}ListResponse struct {
+	ID    uint   `json:"id"`
+	Name string `json:"name"`
+}
+
+type {{.Name}}DetailResponse struct {
+	ID    uint   `json:"id"`
+	Name string `json:"name"`
+}

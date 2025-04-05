@@ -4,8 +4,13 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"log"
+	"strings"
+
 	"github.com/JscorpTech/jst-go/go-generate/internal/domain"
 	"github.com/JscorpTech/jst-go/go-generate/internal/services"
+	"github.com/JscorpTech/jst-go/go-generate/internal/utils"
+	"github.com/charmbracelet/huh"
 	"github.com/spf13/cobra"
 )
 
@@ -21,12 +26,41 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tpfService := services.NewTpf[domain.TemplateData]()
-		tpfService.Generate(tpfService.Read("controller"), domain.TemplateData{
-			Name:      "User",
-			IsNew:     true,
-			Prefix:    "u",
-			NameLower: "user",
-		})
+		var (
+			name  string
+			files = map[string]string{
+				"controller": "./internal/api/controllers",
+				"model":      "./internal/models",
+				"dto":        "./internal/domain/dto",
+				"interface":  "./internal/domain/interfaces",
+				"repository": "./internal/repository",
+				"route":      "./internal/api/routes",
+				"usecase":    "./internal/application/usecase",
+			}
+		)
+		form := huh.NewForm(
+			huh.NewGroup(
+				huh.NewInput().
+					Title("What’s your name?").
+					Value(&name).
+					Validate(func(str string) error {
+						return nil
+					}),
+			),
+		)
+		err := form.Run()
+		if err != nil {
+			log.Fatal(err)
+		}
+		for file, path := range files {
+			tpfService.Generate(path, name, tpfService.Read(file), domain.TemplateData{
+				Name:      utils.StringToName(name),
+				IsNew:     true,
+				Prefix:    strings.ToLower(string(name[0])),
+				NameLower: strings.ToLower(utils.StringToName(name)),
+			})
+		}
+
 	},
 }
 

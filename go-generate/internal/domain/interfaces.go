@@ -2,7 +2,7 @@ package domain
 
 type TpfServicePort[T any] interface {
 	Read(string) []byte
-	Generate([]byte, T) error
+	Generate(string, string, []byte, T) error
 }
 
 type FileUtilPort interface {
