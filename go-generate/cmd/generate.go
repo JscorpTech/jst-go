@@ -41,7 +41,7 @@ to quickly create a Cobra application.`,
 		form := huh.NewForm(
 			huh.NewGroup(
 				huh.NewInput().
-					Title("What’s your name?").
+					Title("Name?: ").
 					Value(&name).
 					Validate(func(str string) error {
 						return nil
