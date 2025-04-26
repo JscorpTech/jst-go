@@ -13,6 +13,7 @@
 *.dll
 *.so
 *.dylib
+go-generate1/
 
 # Test binary, built with `go test -c`
 *.test
