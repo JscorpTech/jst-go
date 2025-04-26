@@ -29,7 +29,12 @@ func (a *aicService) GenerateComment() {
 	result := provider.Generate("Sen git o'zgarishlariga comment yozishing kerak. Javobing faqat quyidagi formatda bo'lishi shart: Hech qanday qo'shimcha so'z, belgi yoki izoh yozilmaydi.  Faqat comment, va u ham ```(triple backtick) orasida bo'ladi boshiga emoji qo'shiladi. Endi mana bu o'zgarishga comment yoz: " + string(changes))
 	re := regexp.MustCompile("(?s)```(.*?)```")
 	matches := re.FindStringSubmatch(result)
-	comment := matches[1]
+	var comment string
+	if len(matches) >= 2 {
+		comment = matches[1]
+	} else {
+		comment = result
+	}
 	form := huh.NewForm(
 		huh.NewGroup(
 			huh.NewText().Title("Comment:").Value(&comment),
