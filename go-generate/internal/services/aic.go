@@ -22,11 +22,16 @@ func NewAicService() domain.AicServicePort {
 
 func (a *aicService) GenerateComment() {
 	provider := providers.NewPizzaGptProvider()
-	changes, err := a.GitService.Changes()
+	changesByte, err := a.GitService.Changes()
+	changes := string(changesByte)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	result := provider.Generate("Sen git o'zgarishlariga comment yozishing kerak. Javobing faqat quyidagi formatda bo'lishi shart: Hech qanday qo'shimcha so'z, belgi yoki izoh yozilmaydi.  Faqat comment, va u ham ```(triple backtick) orasida bo'ladi boshiga emoji qo'shiladi. Endi mana bu o'zgarishga comment yoz: " + string(changes))
+	if changes == "" {
+		fmt.Print("😭 O'zgarishlar mavjud emas")
+		return
+	}
+	result := provider.Generate("Sen git o'zgarishlariga comment yozishing kerak. Javobing faqat quyidagi formatda bo'lishi shart: Hech qanday qo'shimcha so'z, belgi yoki izoh yozilmaydi.  Faqat comment, va u ham ```(triple backtick) orasida bo'ladi boshiga emoji qo'shiladi. Endi mana bu o'zgarishga comment yoz: " + changes)
 	re := regexp.MustCompile("(?s)```(.*?)```")
 	matches := re.FindStringSubmatch(result)
 	var comment string
