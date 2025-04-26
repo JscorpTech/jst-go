@@ -9,5 +9,5 @@ type AIProviderPort interface {
 }
 
 type AicServicePort interface {
-	Generate(string) string
+	GenerateComment()
 }

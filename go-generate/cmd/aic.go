@@ -4,8 +4,6 @@ Copyright © 2025 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/JscorpTech/jst-go/go-generate/internal/services"
 	"github.com/spf13/cobra"
 )
@@ -22,7 +20,7 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		service := services.NewAicService()
-		fmt.Print(service.Generate("salom"))
+		service.GenerateComment()
 	},
 }
 

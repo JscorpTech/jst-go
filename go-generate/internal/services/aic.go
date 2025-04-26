@@ -1,17 +1,48 @@
 package services
 
 import (
+	"fmt"
+	"log"
+	"regexp"
+
 	"github.com/JscorpTech/jst-go/go-generate/internal/domain"
 	"github.com/JscorpTech/jst-go/go-generate/internal/providers"
+	"github.com/charmbracelet/huh"
 )
 
-type aicService struct{}
-
-func NewAicService() domain.AicServicePort {
-	return &aicService{}
+type aicService struct {
+	GitService *gitService
 }
 
-func (a *aicService) Generate(prompt string) string {
+func NewAicService() domain.AicServicePort {
+	return &aicService{
+		GitService: NewGitService(),
+	}
+}
+
+func (a *aicService) GenerateComment() {
 	provider := providers.NewPizzaGptProvider()
-	return provider.Generate(prompt)
+	changes, err := a.GitService.Changes()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	result := provider.Generate("Sen git o'zgarishlariga comment yozishing kerak. Javobing faqat quyidagi formatda bo'lishi shart: Hech qanday qo'shimcha so'z, belgi yoki izoh yozilmaydi.  Faqat comment, va u ham ```(triple backtick) orasida bo'ladi boshiga emoji qo'shiladi. Endi mana bu o'zgarishga comment yoz: " + string(changes))
+	re := regexp.MustCompile("(?s)```(.*?)```")
+	matches := re.FindStringSubmatch(result)
+	comment := matches[1]
+	form := huh.NewForm(
+		huh.NewGroup(
+			huh.NewText().Title("Comment:").Value(&comment),
+		),
+	)
+	err = form.Run()
+	if err != nil {
+		fmt.Print(err.Error())
+	}
+	cmd := a.GitService.Commit(comment)
+	res, err := cmd.Output()
+	if err != nil {
+		fmt.Print(err.Error())
+	}
+	fmt.Print(string(res))
 }
