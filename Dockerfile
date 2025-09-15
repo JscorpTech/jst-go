@@ -1,27 +1,31 @@
 # Stage 1: Build stage
-FROM golang:1.24-alpine AS builder
+FROM golang:1.25-alpine AS builder
+
+WORKDIR /app
+COPY . .
+RUN go mod tidy
+RUN go build -o ./bin/api ./cmd/api/
+
+RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./entrypoint-prod.sh
+
+FROM alpine AS prod
+
+ARG SCRIPT="entrypoint-prod.sh"
+ENV SCRIPT=$SCRIPT
 
 WORKDIR /app
 
-# Modul keshlash uchun go mod fayllarni alohida qo‘shamiz
-COPY go.mod go.sum ./
-RUN go mod download
+COPY .env .env
+COPY --from=builder /app/bin/api /app/bin/api
+COPY --from=builder /app/entrypoint-prod.sh /app/entrypoint-prod.sh
+CMD sh $SCRIPT
 
-# Qolgan kodni qo‘shamiz
-COPY . .
+FROM builder AS dev
 
-# Dasturimizni kompilyatsiya qilamiz
-RUN go build -o main ./cmd/main.go
+ARG SCRIPT="entrypoint.sh"
+ENV SCRIPT=$SCRIPT
 
-# Stage 2: Runtime stage
-FROM alpine:latest
+RUN go install github.com/air-verse/air@latest
 
-WORKDIR /root/
-
-# Oldingi stage'dan faqat kerakli binarini olib kelamiz
-COPY --from=builder /app/main .
-COPY .env .
-COPY assets .
-
-# Konteyner ishga tushganda bajariladigan buyruq
-CMD ["./main"]
+CMD sh $SCRIPT
